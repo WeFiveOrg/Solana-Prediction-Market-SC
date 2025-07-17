@@ -1,113 +1,34 @@
-# takesfun fork program
+# Solana Prediction Market Smart Contract
 
-## Setup
+## Feature
 
-Only needed once per chain
+### Create Your Own Take(Market) (Opinion-Based)
+Anyone can launch a take(market) representing a binary opinion or prediction (e.g., "Will Bitcoin hit $100k by 2026?").
 
-## Deployment
+### Dual Token Bonding Curves(Agree & Disagree)
+Each market spawns two tokens: Agree and Disagree, each backed by its own bonding curve. These tokens represent opposing views.
 
-Program is deployed
+### Negative Correlation Pricing Model
+The market uses virtual liquidity with negative correlation:
+- Buying Agree decreases the virtual liquidity of Disagree, making Disagree cheaper, and vice versa.
+- This ensures a dynamic, zero-sum pricing relationship between both sides of the market.
 
-## Config
+### Fully On-Chain Trading
+All trades occur directly on the Solana blockchain. Tokens are never listed on external AMMs like Raydium.
 
-Call the `configure` instruction to set the config for the program +
-Sets the fee amounts and allowed launch parameters.
+### Decentralized and Permissionless
+No gatekeepers. Anyone can create a market, and anyone can trade on any side at any time.
 
-## Prerequites
+## Tx Histories
+- config: https://solscan.io/tx/5BkLwfYGdQKY3igjZWtCpd48wQmA2qkaByGwh7FM6op3srcU7WTZ226DQcZ1yxacX8d5radkwvKonXuqoK5UHkHi?cluster=custom&customUrl=https://api.devnet.solana.com
 
-Install Rust, Solana, and AVM: https://solana.com/docs/intro/installation
+- market: https://solscan.io/tx/496iHqoCi3PT6TDsAqG4qndBc9pgTTz5TjpeQYpTUzC1zyRAp2udGN1Dr2QY7yNhpQS8svnEynyXEeKQayaxnenF?cluster=custom&customUrl=https://api.devnet.solana.com
 
-Remember to install anchor v0.30.1.
+- swap: https://solscan.io/tx/2utUtWzgy2xZP4m82J7cVgyxmfCcgt72HuSbmbnbHvQpqSjhvWtuqaM8K4VE5WX9iaipmAU2LHtdrAXRGqr4eoZq?cluster=custom&customUrl=https://api.devnet.solana.com
 
-## Quick Start
+- https://solscan.io/tx/3P5wrWL9an4cZSvNLvkvdoVVvWoz7uLbx1RcnfV72ZXTXqLnBGHJruRvQeLKq2d3pUAa9YGGWHoJQNAwjmsBFRGw?cluster=custom&customUrl=https://api.devnet.solana.com
 
-### Build the program
+- https://solscan.io/tx/3KY24yRQCMSn14x35ubpVDaFunZJH8x6muZ63Fzoexq6rJRzJXGUpP35tmRA2ahYvS9oBDcagm6fWQpWRSr7f75X?cluster=custom&customUrl=https://api.devnet.solana.com
 
-```bash
-# build the program
-anchor run build
-
-# For those who use a different CARGO_TARGET_DIR location (like me I used ${userHome}/.cargo/target)
-# then you'll need to move the <program-name>.so back to $PWD/target/deploy/<program-name.so>.
-
-# E.g:
-ln -s $HOME/.cargo/target/sbf-solana-solana/release/takesfun.so $PWD/target/deploy/takesfun.so
-```
-
-### Run tests
-
-you can run the tests without having to start a local network:
-
-```bash
-anchor test --provider.cluster Localnet
-```
-
-### Start a local network and run tests
-
-Run a local Solana validator network:
-
-```bash
-solana config set -ul    # For localhost
-
-solana config set -k ./keys/EgBcC7KVQTh1QeU3qxCFsnwZKYMMQkv6TzgEDkKvSNLv.json # use the test keypair for simplicity
-
-# start a localhost testnet completely fresh
-# --bpf-program is for init programs at genesis. We need metadata program.
-# another way is to use --clone using --url as reference. Ref: https://www.anchor-lang.com/docs/manifest#test-validator
-solana-test-validator -r --bpf-program metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s spl-programs/metadata.so
-```
-
-Deploy the program:
-
-```bash
-anchor deploy --provider.cluster Localnet
-```
-
-Run some tests:
-
-```bash
-# run all tests
-anchor run test --provider.cluster Localnet
-
-# run a single test (e.g. a test with "correctly configured" as name)
-anchor run test --provider.cluster Localnet -- "'correctly configured'"
-```
-
-### Test program on devnet
-
-Set the cluster as devnet in `Anchor.toml`:
-```bash
-[provider]
-cluster = "<DEVNET_RPC>"
-```
-
-Deploy program:
-```bash
-anchor deploy
-```
-
-#### Use CLI to test the program
-
-Initialize program:
-```bash
-yarn script config
-```
-
-Launch a token:
-```bash
-yarn script launch
-```
-
-Swap SOL for token:
-```bash
-yarn script swap -t <TOKEN_MINT> -a <SWAP_AMOUNT> -s <SWAP_DIRECTION>
-```
-`TOKEN_MINT`: You can get token mint when you launch a token
-`SWAP_AMOUNT`: SOL/Token amount to swap
-`SWAP_DIRECTION`: 0 - Buy token, 1 - Sell token
-
-Migrate token to raydium once the curve is completed:
-```bash
-yarn script migrate -t <TOKEN_MINT>
-```
-`TOKEN_MINT`: mint address of the token to be launched on the raydium
+## Contact
+[AnotherRusty](https://t.me/idioRusty)
